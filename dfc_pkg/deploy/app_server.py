@@ -12,29 +12,39 @@ def app_server(ip: str = typer.Option(...)):
         os.chdir(os.path.dirname(__file__))
         path_web = os.getcwd() + "/web"
         path_api = os.getcwd() + "/api"
+        path_models = os.getcwd() + "/models"
         requirements = os.getcwd() + "/requirements.txt"
 
         if os.path.isdir(path_web) is False:
-            typer.echo(f"You need to create the directory web in the path: {os.getcwd()}")
+            typer.echo(f"You need to create the directory web in: {os.getcwd()}")
             exit(0)
         if os.path.isdir(path_api) is False:
-            typer.echo(f"You need to create the directory api in the path: {os.getcwd()}")
+            typer.echo(f"You need to create the directory api in: {os.getcwd()}")
+            exit(0)
+        if os.path.isdir(path_models) is False:
+            typer.echo(f"you need to create the directory models in: {os.getcwd()}")
             exit(0)
         if os.path.isfile(requirements) is False:
             typer.echo("You need the requirements file to install all the dependencies in the web server")
+            exit(0)
     else:
         path_web = path_proyect + "/web"
         path_api = path_proyect + "/api"
+        path_models = path_proyect + "/models"
         requirements = path_proyect + "/requirements.txt"
 
         if os.path.isdir(path_web) is False:
-            typer.echo(f"You need to create the directory web in the path: {os.getcwd()}")
+            typer.echo(f"You need to create the directory web in: {path_proyect}")
             exit(0)
         if os.path.isdir(path_api) is False:
-            typer.echo(f"You need to create the directory api in the path: {os.getcwd()}")
+            typer.echo(f"You need to create the directory api in: {path_proyect}")
+            exit(0)
+        if os.path.isdir(path_models) is False:
+            typer.echo(f"you need to create the directory models in: {os.getcwd()}")
             exit(0)
         if os.path.isfile(requirements) is False:
             typer.echo("You need the requirements file to install all the dependencies in the web server")
+            exit(0)
 
 
 if __name__ == "__main__":
