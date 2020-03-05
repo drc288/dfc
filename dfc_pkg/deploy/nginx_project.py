@@ -2,7 +2,7 @@
 from deploy.dpl.verify_path import verify_path
 from deploy.dpl.compress import compress
 from deploy.dpl.create_connection import create_connection
-from deploy.dpl.nginx import install_nginx, upload_files
+from deploy.dpl.nginx import install_nginx, upload_files, config_nginx
 import os
 import typer
 
@@ -32,7 +32,8 @@ def nginx_project(ip: str = typer.Option(...), path_key: str = typer.Option(...)
         zip_file = compress(path_proyect)
         server = create_connection(user_ssh, ip, path_key)
         install_nginx(server, user_ssh, ip)
-        upload_files(path_proyect, server, zip_file)
+        upload_files(server, path_proyect, zip_file)
+        config_nginx(server, path_proyect, zip_file, user_ssh)
 
 
 if __name__ == "__main__":
