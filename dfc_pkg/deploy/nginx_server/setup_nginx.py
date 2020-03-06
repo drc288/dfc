@@ -41,7 +41,7 @@ def upload_files(server, path: str, zip_file: str):
         typer.echo(stylize("An error has occurred in the upload of the file", fg("red")))
 
 
-def config_nginx(server, path: str, zip_file: str, user: str):
+def component(server, path: str, zip_file: str, user: str):
     """
     This function configure the nginx server with the project
     :param server: Connection of the server
@@ -52,7 +52,7 @@ def config_nginx(server, path: str, zip_file: str, user: str):
     try:
         path_split = path.split("/")
         remove_path = path_split[1]
-        path_project = path_split[len(path_split) - 1]
+        path_project = path_split[len(path_split) - 1] + "/dev"
         # Create the folder /data/ descompress the zip file in /data/
         server.run(f"sudo mkdir -p /data/")
         server.run(f"sudo tar -xzf /tmp/{zip_file} -C /data/")
@@ -68,12 +68,3 @@ def config_nginx(server, path: str, zip_file: str, user: str):
     except socket.error:
         typer.echo(stylize("An error has occurred in the configuration NGINX", fg("red")))
 
-
-def run_gunicorn(server, path: str, port: int):
-    path_split = path.split("/")
-    name_path = path_split[len(path_split) - 1]
-    try:
-        server.run(f"cd /data/{name_path} && gunicorn -b 0.0.0.0:{port} web.app:app &> /dev/null &", hide=True)
-        typer.echo(stylize(f"Server are excecuted in the port: {port}", fg("green"), attr("bold")))
-    except socket.error:
-        typer.echo(stylize("An error has occurred in the configuration GUNICORN", fg("red")))
