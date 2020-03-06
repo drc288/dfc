@@ -4,6 +4,7 @@ from deploy.modules.compress import compress
 from deploy.modules.create_connection import create_connection
 from deploy.modules.upload_files import upload_files
 from deploy.controllers.config_gunicorn import create_service_gunicorn
+from deploy.controllers.config_nginx import config_nginx
 from deploy.nginx_server.setup_nginx import install_nginx, component
 import os
 import typer
@@ -40,6 +41,7 @@ def nginx_project(ip: str = typer.Option(...), path_key: str = typer.Option(...)
         upload_files(server, path_project, zip_file)
         component(server, path_project, zip_file, user_ssh)
         create_service_gunicorn(server, path_project, user_ssh, os.getcwd())
+        config_nginx(server, path_project, os.getcwd())
 
 
 if __name__ == "__main__":
