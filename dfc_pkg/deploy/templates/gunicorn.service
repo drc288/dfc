@@ -1,0 +1,16 @@
+[Unit]
+Description=gunicorn daemon for {<name_project>}
+After=network.target
+
+[Service]
+User={<name>}
+Group=www-data
+# another option for an even more restricted service is
+# DynamicUser=yes
+# see http://0pointer.net/blog/dynamic-users-with-systemd.html
+WorkingDirectory=/data/{<name_project>}
+Environment="PATH=/usr/bin"
+ExecStart=/usr/local/bin/{<gunicorn_command>}
+
+[Install]
+WantedBy=multi-user.target

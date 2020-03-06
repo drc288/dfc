@@ -1,9 +1,10 @@
 #!/usr/bin/python3
-from deploy.commands.verify_path import verify_path
-from deploy.commands.compress import compress
-from deploy.commands.create_connection import create_connection
-from deploy.commands.upload_files import upload_files
-from deploy.nginx_server.setup_nginx import install_nginx, config_nginx, run_gunicorn
+from deploy.modules.verify_path import verify_path
+from deploy.modules.compress import compress
+from deploy.modules.create_connection import create_connection
+from deploy.modules.upload_files import upload_files
+from deploy.controllers.config_gunicorn import create_service_gunicorn
+from deploy.nginx_server.setup_nginx import install_nginx, component
 import os
 import typer
 
@@ -22,22 +23,23 @@ def nginx_project(ip: str = typer.Option(...), path_key: str = typer.Option(...)
     :param port: the number of the port to run gunicorn
     :return: deploy server
     """
+    os.chdir(os.path.dirname(__file__))
     if path_project is None:
-        os.chdir(os.path.dirname(__file__))
         verify_path(os.getcwd())
         zip_file = compress(os.getcwd())
         server = create_connection(user_ssh, ip, path_key)
         install_nginx(server, user_ssh, ip)
         upload_files(server, os.getcwd(), zip_file)
-        config_nginx(server, os.getcwd(), zip_file, user_ssh)
+        component(server, os.getcwd(), zip_file, user_ssh)
+        create_service_gunicorn(server, os.getcwd(), user_ssh, port, os.getcwd())
     else:
         verify_path(path_project)
         zip_file = compress(path_project)
         server = create_connection(user_ssh, ip, path_key)
         install_nginx(server, user_ssh, ip)
         upload_files(server, path_project, zip_file)
-        config_nginx(server, path_project, zip_file, user_ssh)
-        # run_gunicorn(server, path_project, port)
+        component(server, path_project, zip_file, user_ssh)
+        create_service_gunicorn(server, path_project, user_ssh, os.getcwd())
 
 
 if __name__ == "__main__":
