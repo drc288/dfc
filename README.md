@@ -1,1 +1,3 @@
-# Deply Flask Cli (dfc)
+# Deploy Flask Cli (dfc)
+
+Command line interpreter
