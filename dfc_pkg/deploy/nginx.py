@@ -15,7 +15,7 @@ path_project = os.getenv("DFC_PATH")
 
 @app.command()
 def nginx_project(ip: str = typer.Option(...), path_key: str = typer.Option(...),
-                  user_ssh: str = typer.Option(...), port: int = typer.Option(...)):
+                  user_ssh: str = typer.Option(...)):
     """
     create a app server, connect to host an deploy the services in nginx server
     :param ip: host to connect
@@ -32,7 +32,8 @@ def nginx_project(ip: str = typer.Option(...), path_key: str = typer.Option(...)
         install_nginx(server, user_ssh, ip)
         upload_files(server, os.getcwd(), zip_file)
         component(server, os.getcwd(), zip_file, user_ssh)
-        create_service_gunicorn(server, os.getcwd(), user_ssh, port, os.getcwd())
+        create_service_gunicorn(server, os.getcwd(), user_ssh, os.getcwd())
+        config_nginx(server, os.getcwd(), os.getcwd())
     else:
         verify_path(path_project)
         zip_file = compress(path_project)
