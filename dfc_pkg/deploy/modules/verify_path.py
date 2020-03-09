@@ -14,7 +14,8 @@ def verify_path(path: str):
     path_api = path + "/api"
     path_test = path + "/tests"
     path_models = path + "/models"
-    requirements = path + "/requirements.txt"
+    path_dev = path + "/dev"
+    requirements = path + "/dev/requirements.txt"
 
     if os.path.isdir(path_web) is False:
         typer.echo(stylize(f"You need to create the directory web in: {path}", fg("reed")))
@@ -28,6 +29,8 @@ def verify_path(path: str):
     if os.path.isdir(path_test) is False:
         typer.echo(stylize(f"You need to create the directory test in: {path}", fg("red")))
         exit(0)
+    if os.path.isdir(path_dev) is False:
+        typer.echo(stylize(f"You need to create the directory dev in : {path}", fg("red")))
     if os.path.isfile(requirements) is False:
         typer.echo(
             stylize("You need the requirements file to install all the dependencies in the web server", fg("red")))
