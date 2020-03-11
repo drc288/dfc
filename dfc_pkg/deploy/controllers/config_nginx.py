@@ -22,6 +22,7 @@ def config_nginx(server, path: str, main_path: str):
         server.run("sudo rm -rf /etc/nginx/sites-enabled/default /etc/nginx/sites-available/default")
         server.run("sudo mv /tmp/default /etc/nginx/sites-available/")
         server.run("sudo ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled")
+        server.run("sudo systemctl restart gunicorn")
         server.run("sudo service nginx restart")
         typer.echo(stylize("Server are Run", fg("green"), attr("bold")))
     except socket.error:

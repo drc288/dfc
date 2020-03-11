@@ -41,15 +41,16 @@ def deploy_project(ip: str = typer.Option(...), path_key: str = typer.Option(...
     the execution and the recreation of the gunicorn as a daemon, if you have a project in other path,
     specify it as follows: export DFC_PATH.
     """
-    os.chdir(os.path.dirname(__file__))
+    dfc_path = os.path.dirname(__file__)
+    pwd_directory = os.getcwd()
     if path_project is None:
-        verify_path(os.getcwd())
+        verify_path(pwd_directory)
         zip_file = compress(os.getcwd())
         server = create_connection(user_ssh, ip, path_key)
-        upload_files(server, os.getcwd(), zip_file)
-        create_service_gunicorn(server, os.getcwd(), user_ssh, os.getcwd())
-        component(server, os.getcwd(), zip_file, user_ssh)
-        config_nginx(server, os.getcwd(), os.getcwd())
+        upload_files(server, pwd_directory, zip_file)
+        create_service_gunicorn(server, pwd_directory, user_ssh, dfc_path)
+        component(server, pwd_directory, zip_file, user_ssh)
+        config_nginx(server, pwd_directory, dfc_path)
     else:
         verify_path(path_project)
         zip_file = compress(path_project)
