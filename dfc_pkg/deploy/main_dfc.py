@@ -6,6 +6,7 @@ from deploy.modules.upload_files import upload_files
 from deploy.controllers.config_gunicorn import create_service_gunicorn
 from deploy.controllers.config_nginx import config_nginx
 from deploy.nginx_server.setup_nginx import install_nginx, component
+from deploy.mysql_server.setup_mysql import install_mysql
 import os
 import typer
 
@@ -17,17 +18,29 @@ path_project = os.getenv("DFC_PATH")
 def run_nginx(ip: str = typer.Option(...), path_key: str = typer.Option(...),
               user_ssh: str = typer.Option(...)):
     """
-    Deploys an application under the NAFA architecture, this deployment contains the configuration of the app,
-    the execution and the recreation of the gunicorn as a daemon, if you have a project in other path,
-    specify it as follows: export DFC_PATH.
+    This command install a basic configuration for nginx daemon in remote server
     """
     server = create_connection(user_ssh, ip, path_key)
     install_nginx(server)
 
 
 @app.command()
+def run_mysql(ip: str = typer.Option(...), path_key: str = typer.Option(...),
+              user_ssh: str = typer.Option(...)):
+    """
+    This command install a basic mysql server
+    """
+    server = create_connection(user_ssh, ip, path_key)
+    install_mysql(server)
+
+@app.command()
 def deploy_project(ip: str = typer.Option(...), path_key: str = typer.Option(...),
                    user_ssh: str = typer.Option(...)):
+    """
+    Deploys an application under the NAFA architecture, this deployment contains the configuration of the app,
+    the execution and the recreation of the gunicorn as a daemon, if you have a project in other path,
+    specify it as follows: export DFC_PATH.
+    """
     os.chdir(os.path.dirname(__file__))
     if path_project is None:
         verify_path(os.getcwd())
