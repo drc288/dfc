@@ -6,6 +6,7 @@ certifi==2018.1.18
 cffi==1.14.0
 chardet==3.0.4
 Click==7.0
+colored==1.4.2
 configobj==5.0.6
 constantly==15.1.0
 cryptography==2.8
