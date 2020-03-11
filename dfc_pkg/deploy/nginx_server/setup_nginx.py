@@ -76,11 +76,12 @@ def component(server, path: str, zip_file: str, user: str):
         server.run(f"sudo chown -R {user}. /data")
         if verify_mysql(path):
             typer.echo(stylize("Mysql modules were found", fg("blue")))
+            server.run("sudo dpkg --configure -a > /dev/null")
             server.run("sudo apt-get install mysql-server -y > /dev/null")
             server.run("sudo apt-get install libmysqlclient-dev -y > /dev/null")
             server.run("sudo apt-get install libmariadbclient-dev -y > /dev/null")
             typer.echo(stylize("Modules mysql are installed", fg("green"), attr("bold")))
-        server.run(f"sudo pip install  -r /data/{path_project}/requirements.txt > /dev/null")
+        server.run(f"sudo pip3 install  -r /data/{path_project}/requirements.txt > /dev/null")
         typer.echo(stylize("Modules are installed", fg("green"), attr("bold")))
         typer.echo(stylize("NGINX configured", fg("green"), attr("bold")))
     except socket.error:
