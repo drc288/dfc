@@ -4,6 +4,7 @@ from deploy.modules.compress import compress
 from deploy.modules.create_connection import create_connection
 from deploy.modules.upload_files import upload_files
 from deploy.controllers.config_gunicorn import create_service_gunicorn
+from deploy.controllers.config_nginx import config_nginx
 from deploy.nginx_server.setup_nginx import install_nginx, component
 import os
 import typer
@@ -13,33 +14,37 @@ path_project = os.getenv("DFC_PATH")
 
 
 @app.command()
-def nginx_project(ip: str = typer.Option(...), path_key: str = typer.Option(...),
-                  user_ssh: str = typer.Option(...), port: int = typer.Option(...)):
+def run_nginx(ip: str = typer.Option(...), path_key: str = typer.Option(...),
+              user_ssh: str = typer.Option(...)):
     """
-    create a app server, connect to host an deploy the services in nginx server
-    :param ip: host to connect
-    :param path_key: ssh key
-    :param user_ssh: user to connect
-    :param port: the number of the port to run gunicorn
-    :return: deploy server
+    Deploys an application under the NAFA architecture, this deployment contains the configuration of the app,
+    the execution and the recreation of the gunicorn as a daemon, if you have a project in other path,
+    specify it as follows: export DFC_PATH.
     """
+    server = create_connection(user_ssh, ip, path_key)
+    install_nginx(server)
+
+
+@app.command()
+def deploy_project(ip: str = typer.Option(...), path_key: str = typer.Option(...),
+                   user_ssh: str = typer.Option(...)):
     os.chdir(os.path.dirname(__file__))
     if path_project is None:
         verify_path(os.getcwd())
         zip_file = compress(os.getcwd())
         server = create_connection(user_ssh, ip, path_key)
-        install_nginx(server, user_ssh, ip)
         upload_files(server, os.getcwd(), zip_file)
+        create_service_gunicorn(server, os.getcwd(), user_ssh, os.getcwd())
         component(server, os.getcwd(), zip_file, user_ssh)
-        create_service_gunicorn(server, os.getcwd(), user_ssh, port, os.getcwd())
+        config_nginx(server, os.getcwd(), os.getcwd())
     else:
         verify_path(path_project)
         zip_file = compress(path_project)
         server = create_connection(user_ssh, ip, path_key)
-        install_nginx(server, user_ssh, ip)
         upload_files(server, path_project, zip_file)
-        component(server, path_project, zip_file, user_ssh)
         create_service_gunicorn(server, path_project, user_ssh, os.getcwd())
+        component(server, path_project, zip_file, user_ssh)
+        config_nginx(server, path_project, os.getcwd())
 
 
 if __name__ == "__main__":
