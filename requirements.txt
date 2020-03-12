@@ -33,7 +33,4 @@ service-identity==16.0.0
 six==1.11.0
 Twisted==19.7.0
 typer==0.0.8
-ufw==0.36
-unattended-upgrades==0.1
 urllib3==1.24.2
-zope.interface==4.3.2
