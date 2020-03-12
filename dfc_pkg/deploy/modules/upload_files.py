@@ -14,5 +14,6 @@ def upload_files(server, path: str, zip_file: str):
     try:
         server.put(path + "/versions/" + zip_file, "/tmp/")
         typer.echo(stylize("File upload", fg("green"), attr("bold")))
-    except socket.error:
-        typer.echo(stylize("An error has occurred in the upload of the file", fg("red")))
+    except socket.error as er:
+        typer.echo(stylize(f"An error has occurred in the upload of the file: {er}", fg("red")))
+        exit(0)

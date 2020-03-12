@@ -3,6 +3,7 @@ Description=gunicorn daemon for {<name_project>}
 After=network.target
 
 [Service]
+PIDFile=/run/gunicorn/pid
 User={<name>}
 Group=www-data
 # another option for an even more restricted service is

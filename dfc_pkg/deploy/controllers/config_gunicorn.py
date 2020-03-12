@@ -5,15 +5,6 @@ import typer
 import socket
 
 
-def append_write(filename="", text=""):
-    """
-    Appends a string at the end of a text file
-    and Returns the number of characters added
-    """
-    with open(filename, 'a', encoding='utf-8') as f:
-        return f.write(text)
-
-
 def create_service_gunicorn(server, path: str, user: str, main_path: str):
     """
     This function create the gunicorn as a service
@@ -25,7 +16,7 @@ def create_service_gunicorn(server, path: str, user: str, main_path: str):
     """
     path_split = path.split("/")
     name_path = path_split[len(path_split) - 1]
-    command_gunicorn = "gunicorn --bind unix:gunicorn.sock: web.app:app"
+    command_gunicorn = "gunicorn --bind unix:gunicorn.sock web.app:app"
     params = {
         "{<name>}": user,
         "{<name_project>}": name_path,
