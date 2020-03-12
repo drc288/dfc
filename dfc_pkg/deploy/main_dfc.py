@@ -56,9 +56,9 @@ def deploy_project(ip: str = typer.Option(...), path_key: str = typer.Option(...
         zip_file = compress(path_project)
         server = create_connection(user_ssh, ip, path_key)
         upload_files(server, path_project, zip_file)
-        create_service_gunicorn(server, path_project, user_ssh, os.getcwd())
+        create_service_gunicorn(server, path_project, user_ssh, dfc_path)
         component(server, path_project, zip_file, user_ssh)
-        config_nginx(server, path_project, os.getcwd())
+        config_nginx(server, path_project, dfc_path)
 
 
 if __name__ == "__main__":
