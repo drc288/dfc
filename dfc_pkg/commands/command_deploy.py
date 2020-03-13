@@ -14,8 +14,11 @@ path_project = os.getenv("DFC_PATH")
 
 
 @app.command()
-def project(ip: str = typer.Option(...), key_ssh: str = typer.Option(...),
-            user_ssh: str = typer.Option(...)):
+def project(
+    ip: str = typer.Option(...),
+    key_ssh: str = typer.Option(...),
+    user_ssh: str = typer.Option(...),
+):
     """
     Deploys an application under the NAFA architecture, this deployment contains the configuration of the app,
     the execution and the recreation of the gunicorn as a daemon, if you have a project in other path,
@@ -34,7 +37,7 @@ def project(ip: str = typer.Option(...), key_ssh: str = typer.Option(...),
     else:
         verify_path(path_project)
         zip_file = compress(path_project)
-        server = create_connection(user_ssh, ip, path_key)
+        server = create_connection(user_ssh, ip, key_ssh)
         upload_files(server, path_project, zip_file)
         create_service_gunicorn(server, path_project, user_ssh, dfc_path)
         setup_project(server, path_project, zip_file, user_ssh)

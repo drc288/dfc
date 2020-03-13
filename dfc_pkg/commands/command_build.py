@@ -8,8 +8,11 @@ app = typer.Typer()
 
 
 @app.command()
-def nginx(ip: str = typer.Option(...), key_ssh: str = typer.Option(...),
-          user_ssh: str = typer.Option(...)):
+def nginx(
+    ip: str = typer.Option(...),
+    key_ssh: str = typer.Option(...),
+    user_ssh: str = typer.Option(...),
+):
     """
     This command install a nginx server
     """
@@ -18,8 +21,11 @@ def nginx(ip: str = typer.Option(...), key_ssh: str = typer.Option(...),
 
 
 @app.command()
-def mysql(ip: str = typer.Option(...), key_ssh: str = typer.Option(...),
-          user_ssh: str = typer.Option(...)):
+def mysql(
+    ip: str = typer.Option(...),
+    key_ssh: str = typer.Option(...),
+    user_ssh: str = typer.Option(...),
+):
     """
     This command install mysql server
     """
