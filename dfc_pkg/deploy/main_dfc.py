@@ -5,7 +5,8 @@ from deploy.modules.create_connection import create_connection
 from deploy.modules.upload_files import upload_files
 from deploy.controllers.config_gunicorn import create_service_gunicorn
 from deploy.controllers.config_nginx import config_nginx
-from deploy.nginx_server.setup_nginx import install_nginx, component
+from deploy.nginx_server.setup_project import setup_project
+from deploy.nginx_server.install_nginx import install_nginx
 from deploy.mysql_server.setup_mysql import install_mysql
 import os
 import typer
@@ -33,6 +34,7 @@ def run_mysql(ip: str = typer.Option(...), path_key: str = typer.Option(...),
     server = create_connection(user_ssh, ip, path_key)
     install_mysql(server)
 
+
 @app.command()
 def deploy_project(ip: str = typer.Option(...), path_key: str = typer.Option(...),
                    user_ssh: str = typer.Option(...)):
@@ -49,7 +51,7 @@ def deploy_project(ip: str = typer.Option(...), path_key: str = typer.Option(...
         server = create_connection(user_ssh, ip, path_key)
         upload_files(server, pwd_directory, zip_file)
         create_service_gunicorn(server, pwd_directory, user_ssh, dfc_path)
-        component(server, pwd_directory, zip_file, user_ssh)
+        setup_project(server, pwd_directory, zip_file, user_ssh)
         config_nginx(server, pwd_directory, dfc_path)
     else:
         verify_path(path_project)
@@ -57,7 +59,7 @@ def deploy_project(ip: str = typer.Option(...), path_key: str = typer.Option(...
         server = create_connection(user_ssh, ip, path_key)
         upload_files(server, path_project, zip_file)
         create_service_gunicorn(server, path_project, user_ssh, dfc_path)
-        component(server, path_project, zip_file, user_ssh)
+        setup_project(server, path_project, zip_file, user_ssh)
         config_nginx(server, path_project, dfc_path)
 
 

@@ -1,2 +1,2 @@
 #!/bin/bash
-alias dfc="/home/vagrant/project/dfc/dfc_pkg/./main.py"
+alias dfc="/home/vagrant/vagrant_data/dfc/dfc_pkg/./main.py"

@@ -14,8 +14,6 @@ def install_mysql(server):
     try:
         typer.echo(stylize('Starting with the installation of mysql', fg('blue')))
         server.run('sudo apt-get install mysql-server -y > /dev/null')
-        server.run('sudo apt-get install libmysqlclient-dev -y > /dev/null')
-        server.run('sudo apt-get install libmariadbclient-dev -y > /dev/null')
         typer.echo(stylize('Mysql has been installed', fg('green'), attr('bold')))
     except socket.error as err:
         typer.echo(stylize(f'Unable to connect, error: {err}', fg("red")))
