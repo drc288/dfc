@@ -8,7 +8,7 @@ app = typer.Typer()
 
 
 @app.command()
-def mysql_flaskcli(
+def mysql_storage(
         ip: str = typer.Option(...),
         key_ssh: str = typer.Option(...),
         user_ssh: str = typer.Option(...),
