@@ -21,7 +21,7 @@ def install_nginx(server):
         server.run("sudo apt-get update -y > /dev/null")
         typer.echo(stylize("Server updated", fg("green"), attr("bold")))
         # Init to install nginx server
-        typer.echo(stylize("Installing nginx server", fg("blue")))
+        typer.echo(stylize("Installing NGINX server", fg("blue")))
         server.run("sudo apt-get install nginx -y > /dev/null 3> /dev/null")
         # Verify the path for mysql dependencies
         typer.echo(stylize("Installing pip3 for python3", fg("blue")))
