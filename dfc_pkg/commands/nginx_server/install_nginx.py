@@ -29,8 +29,8 @@ def install_nginx(server):
         server.run("sudo pip3 install -U pip > /dev/null")
         typer.echo(stylize("NGINX and PIP are installed ", fg("green"), attr("bold")))
     except socket.error:
-        typer.echo(stylize(f'Unable to connect', fg("red")))
+        typer.echo(stylize(f"Unable to connect", fg("red")))
         exit(0)
     except paramiko.ssh_exception.AuthenticationException:
-        typer.echo(stylize(f'SSH Error, verify the kay path', fg("red")))
+        typer.echo(stylize(f"SSH Error, verify the kay path", fg("red")))
         exit(0)
