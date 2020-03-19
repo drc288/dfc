@@ -12,9 +12,9 @@ def install_mysql(server):
     :return: void
     """
     try:
-        typer.echo(stylize('Starting with the installation of mysql', fg('blue')))
+        typer.echo(stylize('Starting with the installation of mysql-server', fg('blue')))
         server.run('sudo apt-get install mysql-server -y > /dev/null')
-        typer.echo(stylize('Mysql has been installed', fg('green'), attr('bold')))
+        typer.echo(stylize('MySQL has been installed', fg('green'), attr('bold')))
     except socket.error as err:
         typer.echo(stylize(f'Unable to connect, error: {err}', fg("red")))
     except paramiko.ssh_exception.AuthenticationException as err:

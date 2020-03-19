@@ -16,7 +16,7 @@ app = typer.Typer()
 
 app.add_typer(deploy.app, name="deploy")
 app.add_typer(build.app, name="build")
-# app.add_typer(integrate.app, name="integrate")
+app.add_typer(integrate.app, name="integrate")
 
 
 if __name__ == "__main__":
