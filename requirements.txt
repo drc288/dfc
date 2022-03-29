@@ -17,7 +17,7 @@ incremental==16.10.1
 invoke==1.4.1
 keyring==10.6.0
 keyrings.alt==3.0
-paramiko==2.7.1
+paramiko==2.10.1
 pyasn1==0.4.2
 pyasn1-modules==0.2.1
 pycparser==2.19
